@@ -1,0 +1,73 @@
+
+html,body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	font-family: 'Dosis', sans-serif;
+}
+
+h2 {
+
+font-family: 'Vina Sans', sans-serif;
+
+}
+
+
+button {
+	border-radius: 10px;
+	background-color: hsl(300, 100%, 90%);
+
+}
+
+.mini {
+	font-size: 80%;
+}
+
+.controls {
+	background-color: hsla(240, 100%, 50%, .2);
+
+	border-radius: 10px;
+	box-shadow: 1px 2px rgba(0, 0, 0, .5);
+	padding: 6px;
+	width: 300px;
+}
+
+
+#app {
+
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.columns {
+/*	height: 100%;*/
+	display: flex;
+	flex: 1;
+	flex-direction: row;
+	border: 10px solid purple;
+}
+
+
+.column {
+	padding: 3px;
+	flex: 1;
+	border: 1px solid hotpink;
+}
+
+header, footer {
+	height: 25px;
+	border: 2px solid lime;
+}
+
+
+
+@keyframes slideRight {
+    from {
+        left: 0;
+    }
+    to {
+        left: calc(100% - 50px); /* Adjust so the box stops at the right edge of the container */
+    }
+}

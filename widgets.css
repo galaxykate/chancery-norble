@@ -1,0 +1,17 @@
+.widget {
+	border: 1px solid grey;
+	padding: 2px;
+	margin: 2px;
+	border-radius: 5px;
+}
+.gradient-editor {
+	position: relative;
+}
+
+.gradient-editor-step {
+	width: 0px;
+	top: 0px;
+	background-color: magenta;
+	display: inline-block;
+	position: absolute;
+}
