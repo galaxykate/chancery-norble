@@ -6,51 +6,19 @@ const TEST_SCRIPT_1 ={
 				},
 				states: {
 					origin: {
+
+
 						onEnterSay: "Hello",
 						onExitSay: "Leaving",
 						
-						exits: [{
-							conditions: [{
-								type: "wait",
-								value: 2
-							}],
-							goto:"summer",
-							actions: {
-								anim: "fire",
-								length: 1
-							}
-						}]
+						cues: [
+							"wait:5 -> goto garden",
+							"beat:4,16 -> x+=1",
+							"beat:8,20 -> y+=1",
+							"y>4 play:none -> y=0 play:sleep",
+							"say:'hi' wait:1 -> say:'hi' play:dance play:none"
+						]
 					},
-					summer: {
-						onEnterSay: "🌷",
-						onEnter: "grass=0",
-						whileHere: ["grass+=1", "say(grass*'🌱')"],
-						exits: [{
-							conditions: [{
-								type: "wait",
-								value: 4
-							}],
-							goto:"winter",
-							actions: {
-								anim: "snow",
-								length: 1
-							}
-						}]
-					},
-					winter: {
-						onEnterSay: "☃️",
-						whileHere: ["snow+=1", "say(snow*'❄')"],
-						exits: [{
-							conditions: {
-								type: "wait",
-								value: 4
-							},
-							goto:"summer",
-							actions: ["year += 1", "snow = 0",{
-								anim: "grass",
-								length: 1
-							}],
-						}]
-					},
+					
 				}
 			}

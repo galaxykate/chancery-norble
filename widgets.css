@@ -15,3 +15,64 @@
 	display: inline-block;
 	position: absolute;
 }
+
+
+
+.open {
+	background-color: hsla(160, 100%,80%, 1);
+
+}
+
+
+.emoji-button {
+	position: relative;
+/*	height: 1em;*/
+	border: none;
+	line-height: .9;
+	box-shadow: 1px 3px 3px 2px rgba(0, 0, 0, .4);
+	border-radius: 5px;
+/*	background-color: transparent;*/
+	padding: 0px 0px 0px 0px;
+	font-size: 20px;
+}
+.emoji-button:hover {
+	transform: scale(1.1, 1.1)
+}
+
+.emoji-button:active {
+	top: 1px;
+}
+
+
+.toggle-button {
+	border-radius: 10px;
+	background-color: hsl(300, 100%, 90%);
+}
+
+.toggle-button.active {
+	background-color: hsla(20, 100%,80%, 1);
+}
+
+
+.condition-watcher {
+	display: inline-block;
+}
+
+.event-chip {
+	min-width: 1em;
+	min-height: 1em;
+}
+
+.event-chip-rightclick {
+	background-color: hsla(100, 100%, 50%, 1);
+}
+.event-chip-leftclick {
+	background-color: hsla(190, 100%, 50%, 1);
+}
+
+.event-chip-input {
+	background-color: hsla(190, 0%, 90%, 1);
+	font-size: 80%;
+	font-weight: bold;
+	font-family: monospace;
+}

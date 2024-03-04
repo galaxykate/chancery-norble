@@ -1,34 +1,68 @@
+/**
+ * watch many actors at the same time
+ **/
+Vue.component("chancery-sim-view", {
+	template: `<div>
+		<div class="controls">
+			<button class="emoji-button" @click="app.paused=!app.paused">{{app.paused?"▶️":"⏸️"}}</button>
+			<toggle-button :obj="app" objKey="showProgressAnimations" label="showProgressAnimations"/>
+		</div>
 
-	Vue.component("pointer-view", {
-		template: `<div>
-			POINTER
+		<div class="actors">
+			<actor-view 
+				v-for="actor in actors" 
+				:actor="actor" 
+				:key="actor.toString()" 
+				:app="app" 
+				/>
+		</div>
+	</div>`,
+	mounted() {
 
-			State:{{pointer.stateID}}
-			<div>
-			DATA
-			</div>
-			<div>
-			EXITS
-			</div>
-
-			<div>
-			ACTIONS
-			</div>
-		</div>`,
-		mounted() {
-
-		},
-		props: ["pointer"],
 		
-	})
+		// Give everyone some scripts and let'em go
+		let script = TEST_SCRIPT_1
+		this.actors.forEach(a => {
+			a.startScript(script)
+			setInterval(() => {
+				if (!this.app.paused) {
+					// Actor gets some random input
+					a.generateRandomInput()
+					a.update()
+				}
+			})
+		})
+			
 
-		Vue.component("exitwatcher-view", {
-		template: `<div>
-			EXIT
-		</div>`,
-		mounted() {
+	
+	},
 
-		},
-		props: ["pointer"],
-		
-	})
+	data() {
+		let app = {
+			selected: undefined,
+
+			showProgressAnimations: false,
+			paused: true
+			,
+		}
+		return {
+			
+			app,
+			
+		}
+	},
+	props: {
+
+
+		actors: {
+			// required: true,
+			type: Array,
+			default() {
+				// Create some actors 
+				let system = new TestSystem()
+				return system.makeRandomActors()
+			},
+		}
+	}
+	
+})

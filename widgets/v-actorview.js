@@ -1,99 +1,71 @@
-Vue.component("pct-clock", {
-	template: `<div class="clock" :style="style">
-	</div>`,
-	computed: {
-		style() {
-			if (this.mode === "clock") {
-
-
-				let angle = this.pct*360
-
-				return {
-					width: this.size + "px",
-					height: this.size + "px",
-					"border-radius": "50%",
-					"background-image": `conic-gradient(from 0deg at 50% 50%, 
-						${this.bgColor} 0deg, 
-						${this.bgColor} ${angle}deg, 
-						${this.fillColor} ${angle}deg, 
-						${this.fillColor})`
-				}
-			} else {
-				let pctVal = (this.pct*100).toFixed(1) + "%"
-				return {
-					width: this.width + "px",
-					height: this.size + "px",
-					"border-radius": "5px",
-					"background-image": `linear-gradient(to right, 
-						${this.bgColor} ${pctVal}, 
-						${this.fillColor} ${pctVal})`
-				}
-			}
-		}
-	},
-	props: {
-		width: {
-			default: 120,
-		},
-		size: {
-			default: 20,
-		},
-		mode: {
-			default: "bar",
-		},
-		pct: {
-			required:true,
-
-		},
-		bgColor: {
-			default: "lightblue",
-		},
-		fillColor: {
-			default: "black",
-		}
-	}
-})
 
 Vue.component("condition-watcher", {
-	template: `<div class="widget condition-watcher" ref="holder" :class="{fulfilled:cw.isFulfilled}">
+	template: `<div class="widget condition-watcher" ref="holder">
 		<div>
-			{{cw}}	
-			<div>{{cw.fulfilled}}</div>
-			<div>{{cw.pct}}</div>
-
-			<pct-clock :pct="cw.pct" />
+			CW{{watcher.condition}}
+			
+			<pct-clock :pct="watcher.pct"  v-if="app.showProgressAnimations" />
 		</div>
 	</div>`,
 	props: {
-		cw: {
+		app: {
+			type: Object
+		},
+		watcher: {
 			required: true,
 		}
 	}
 })
-Vue.component("exit-watcher", {
-	template: `<div class="widget exit-watcher" ref="holder">
+Vue.component("cue-watcher", {
+	template: `<div class="widget cue-watcher" 
+			ref="holder" 
+			
+		>
+			<div class="section conditions">
+				CONDITIONS: {{watcher.conditionWatchers.length}}
 
-		<div>
-			<condition-watcher v-for="cw in ew.conditionWatchers" :cw="cw" :key="cw.toString()"/>
+				<condition-watcher 
+					v-for="cw in watcher.conditionWatchers" 
+					:watcher="cw" :app="app" :key="cw.toString()" />
+			</div>
+
+			<div class="section conditions">ACTIONS</div>
+		<div>	
+			
 				
 				
 		</div>
 	</div>`,
 	props: {
-		ew: {
+		app: {
+			type: Object
+		},
+		watcher: {
 			required: true,
 		}
 	}
 })
+
 
 Vue.component("actor-view", {
 	template: `<div class="widget actor-view" ref="holder">
 		ACTOR {{actor}}
 		<div v-for="role in actor.roles" class="widget">
+			<button @click="role.instance.time.togglePause()">PAUSE</button>
+			
+			<data-table v-if="false" objKey="time" :obj="role.instance" />
 			<div>{{role}}:{{role.currentStateID}}</div>
-
+			<event-chip v-for="ev in role.eventsSinceStateChange.slice(-3)" :ev="ev" />
+			
 			<div>
-				<exit-watcher v-for="ew in role.exitWatchers" :ew="ew" :key="ew.toString()"/>
+
+				<cue-watcher 
+					v-for="watcher in role.cueWatchers" 
+						:watcher="watcher" 
+						:app="app" 
+						:key="watcher.toString()"
+					/>
+				
 				
 				
 			</div>
@@ -101,6 +73,9 @@ Vue.component("actor-view", {
 
 	</div>`,
 	props: {
+		app: {
+			type: Object
+		},
 		actor: {
 			required: true,
 		}
